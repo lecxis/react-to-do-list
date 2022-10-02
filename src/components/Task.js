@@ -2,9 +2,9 @@ import Tas from './Tas'
 
 const Tasks = ({tasks, onDelete, onToggle})=>{
 
-    console.log(tasks);
-    if (tasks){
-
+    console.log(tasks[0]);
+    if (tasks[0]){
+            console.log(tasks.length)
         return (
             <>
                {tasks.map((task)=>(

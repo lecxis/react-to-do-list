@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState , useEffect} from 'react'
 //import './App.css';
 
 import Header from './components/Header'
@@ -7,32 +7,29 @@ import AddTask from './components/AddTask';
 
 const App = ()=> {
   const [showAddTask, setShowAddTask] = useState(true)
-const [tasks, setTasks] = useState([
-  {
-      "id": 1,
-      "title": "delectus aut autem",
-      "completed": false
-    },
-    {
-      
-      "id": 2,
-      "title": "quis ut nam facilis et officia qui",
-      "completed": false
-    },
-    {
-      
-      "id": 3,
-      "title": "fugiat veniam minus",
-      "completed": false
-    },
-  ] 
-)
+const [tasks, setTasks] = useState([ 
+
+  useEffect(()=>{
+    const getTasks = async () =>{
+      const tasksFromServer = await fetchTasks ()
+      setTasks(tasksFromServer)
+    }
+    getTasks()
+
+  }, []   )
+])
+
+const fetchTasks = async () =>{
+  const res = await fetch ('https://jsonplaceholder.typicode.com/todos')
+  const data =await res.json()
+  console.log(data)
+}
+ 
 const addTask = (task) =>{
   console.log(task)
   const id= tasks.length +1
   const newTask ={id, ...task}
   setTasks([...tasks, newTask])
-
 }
 const deleteTask =(id) =>{
   console.log('deleting ...', id)
