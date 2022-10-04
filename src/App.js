@@ -22,16 +22,34 @@ const [tasks, setTasks] = useState([
 const fetchTasks = async () =>{
   const res = await fetch ('https://jsonplaceholder.typicode.com/todos')
   const data =await res.json()
-  console.log(data)
+ // console.log(data)
+  return data
 }
  
-const addTask = (task) =>{
-  console.log(task)
+const addTask = async (task) =>{
+ 
   const id= tasks.length +1
-  const newTask ={id, ...task}
-  setTasks([...tasks, newTask])
+  const userId= Math.floor(Math.random()*100)+1
+  const newTask ={userId, id, ...task}
+  
+  console.log(newTask)/*
+  setTasks([...tasks, newTask])*/
+  const res = await fetch ('https://jsonplaceholder.typicode.com/todos',
+  {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(newTask),
+  })
+  const data= await res.json()
+  console.log(data)
+
+  setTasks([...tasks, data])
+
 }
 const deleteTask =(id) =>{
+
   console.log('deleting ...', id)
   setTasks(tasks.filter((task) =>task.id !==id))
 }
